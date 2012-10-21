@@ -1,0 +1,30 @@
+[
+	{
+		"id":"username",
+		"type":"text",
+		"label":"Username",
+		"default":"",
+		"secure":"true"
+	},
+	{
+		"id":"password",
+		"type":"text",
+		"option":"hidden",
+		"label":"Password",
+		"default":"",
+		"secure":"true"
+	},
+	{
+		"id":"test",
+		"type":"bool",
+		"label":"Test",
+		"default":"true"
+	},
+	{
+		"id":"fruit",
+		"type":"enum",
+		"label":"Select your favorite fruit",
+		"values":["Apple", "Banana", "Cherry", "Orange", "Strawberry"],
+		"default":"Orange"
+	}
+]

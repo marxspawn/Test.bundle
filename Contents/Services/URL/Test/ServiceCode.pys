@@ -1,0 +1,109 @@
+def NormalizeURL(url):
+
+	return url
+
+####################################################################################################
+def MetadataObjectForURL(url):
+
+	video = JSON.ObjectFromString(String.Unquote(url.strip('test://'), usePlus=False))
+	vc = VideoClipObject()
+
+	if 'title' in video:
+		vc.title = video['title']
+
+	if 'thumb' in video:
+		vc.thumb = video['thumb']
+
+	if 'urls' in video:
+		sizes = video['urls'].keys()
+		sizes.sort(cmp=lambda x,y: SortValues(x, y))
+
+		for size in sizes:
+			mo = MediaObject()
+			mo.video_resolution = size
+
+			if 'container' in video:
+				mo.container = video['container']
+
+			if 'video_codec' in video:
+				mo.video_codec = video['video_codec']
+
+			if 'audio_codec' in video:
+				mo.audio_codec = video['audio_codec']
+
+			mo.parts = []
+
+			for url in video['urls'][size]:
+				if 'container' in video:
+					if video['container'] == 'webkit':
+						mo.parts.append(PartObject(key=WebVideoURL(url)))
+					elif video['container'] == 'hls':
+						mo.parts.append(PartObject(key=HTTPLiveStreamURL(url)))
+					else:
+						mo.parts.append(PartObject(key=url))
+
+			vc.items.append(mo)
+
+	return vc
+
+####################################################################################################
+def SortValues(x, y):
+
+	if x.isdigit():
+		return -1
+
+	if y.isdigit():
+		return 0
+
+	if int(x) > int(y):
+		return 1
+
+####################################################################################################
+def TestURLs():
+
+	test_urls = []
+
+	# MP4
+	video = JSON.StringFromObject(
+		{
+			"title": "MP4 (AAC/H.264) over HTTP",
+			"thumb": "http://dl.dropbox.com/u/2974527/fringe.jpg",
+			"urls": {
+				"sd": ["http://dl.dropbox.com/u/2974527/fringe.mp4"],
+				"360": ["http://dl.dropbox.com/u/2974527/fringe.mp4"],
+				"480": ["http://dl.dropbox.com/u/2974527/fringe.mp4", "http://dl.dropbox.com/u/2974527/fringe.mp4"]
+			},
+			"container": "mp4",
+			"video_codec": "h264",
+			"audio_codec": "aac"
+		}
+	)
+	test_urls.append('test://%s' % String.Quote(video, usePlus=False))
+
+	# Webkit (Flash)
+	video = JSON.StringFromObject(
+		{
+			"title": "Webkit (Flash)",
+			"thumb": "http://dl.dropbox.com/u/2974527/fringe.jpg",
+			"urls": {
+				"360": ["http://www.plexapp.com/player/player.php?clip=http://dl.dropbox.com/u/2974527/fringe.mp4"]
+			},
+			"container": "webkit"
+		}
+	)
+	test_urls.append('test://%s' % String.Quote(video, usePlus=False))
+
+	# Webkit (Silverlight)
+	video = JSON.StringFromObject(
+		{
+			"title": "Webkit (Silverlight)",
+			"thumb": "http://dl.dropbox.com/u/2974527/fringe.jpg",
+			"urls": {
+				"360": ["http://www.plexapp.com/player/silverlight.php?stream=http://dl.dropbox.com/u/2974527/fringe.mp4"]
+			},
+			"container": "webkit"
+		}
+	)
+	test_urls.append('test://%s' % String.Quote(video, usePlus=False))
+
+	return test_urls
