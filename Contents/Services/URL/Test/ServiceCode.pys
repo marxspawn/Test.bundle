@@ -49,14 +49,15 @@ def MetadataObjectForURL(url):
 ####################################################################################################
 def SortValues(x, y):
 
-	if x.isdigit():
-		return -1
+	if x == 'sd':
+		x = 0
+	elif y == 'sd':
+		y = 0
 
-	if y.isdigit():
-		return 0
-
-	if int(x) > int(y):
+	if int(x) < int(y):
 		return 1
+	else:
+		return -1
 
 ####################################################################################################
 def TestURLs():
@@ -67,11 +68,12 @@ def TestURLs():
 	video = JSON.StringFromObject(
 		{
 			"title": "MP4 (AAC/H.264) over HTTP",
-			"thumb": "http://dl.dropbox.com/u/2974527/fringe.jpg",
+			"thumb": "http://dl.dropbox.com/u/2974527/Plex/Testvideo/Fringe/thumb.jpg",
 			"urls": {
-				"sd": ["http://dl.dropbox.com/u/2974527/fringe.mp4"],
-				"360": ["http://dl.dropbox.com/u/2974527/fringe.mp4"],
-				"480": ["http://dl.dropbox.com/u/2974527/fringe.mp4", "http://dl.dropbox.com/u/2974527/fringe.mp4"]
+				"sd": ["http://dl.dropbox.com/u/2974527/Plex/Testvideo/Fringe/360p.mp4"],
+				"480": ["http://dl.dropbox.com/u/2974527/Plex/Testvideo/Fringe/480p.mp4"],
+				"720": ["http://dl.dropbox.com/u/2974527/Plex/Testvideo/Fringe/720p.mp4"],
+				"1080": ["http://dl.dropbox.com/u/2974527/Plex/Testvideo/Fringe/1080p.mp4"]
 			},
 			"container": "mp4",
 			"video_codec": "h264",
@@ -84,9 +86,9 @@ def TestURLs():
 	video = JSON.StringFromObject(
 		{
 			"title": "Webkit (Flash)",
-			"thumb": "http://dl.dropbox.com/u/2974527/fringe.jpg",
+			"thumb": "http://dl.dropbox.com/u/2974527/Plex/Testvideo/Fringe/thumb.jpg",
 			"urls": {
-				"360": ["http://www.plexapp.com/player/player.php?clip=http://dl.dropbox.com/u/2974527/fringe.mp4"]
+				"480": ["http://www.plexapp.com/player/player.php?clip=http://dl.dropbox.com/u/2974527/Plex/Testvideo/Fringe/480p.mp4"]
 			},
 			"container": "webkit"
 		}
@@ -97,9 +99,9 @@ def TestURLs():
 	video = JSON.StringFromObject(
 		{
 			"title": "Webkit (Silverlight)",
-			"thumb": "http://dl.dropbox.com/u/2974527/fringe.jpg",
+			"thumb": "http://dl.dropbox.com/u/2974527/Plex/Testvideo/Fringe/thumb.jpg",
 			"urls": {
-				"360": ["http://www.plexapp.com/player/silverlight.php?stream=http://dl.dropbox.com/u/2974527/fringe.mp4"]
+				"480": ["http://www.plexapp.com/player/silverlight.php?stream=http://dl.dropbox.com/u/2974527/Plex/Testvideo/Fringe/480p.mp4"]
 			},
 			"container": "webkit"
 		}

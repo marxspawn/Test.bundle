@@ -58,8 +58,6 @@ def Start():
 	ObjectContainer.title1 = 'Test'
 	DirectoryObject.thumb = R(ICON)
 
-	HTTP.CacheTime = CACHE_1HOUR
-
 ####################################################################################################
 @handler('/video/test', 'Test', art=ART, thumb=ICON)
 def MainMenu():
@@ -104,7 +102,7 @@ def GetIdentifiers(title):
 		thumb = ''
 
 		try:
-			info = JSON.ObjectFromURL(APPSTORE_URL % identifier)['app']
+			info = JSON.ObjectFromURL(APPSTORE_URL % identifier, cacheTime=CACHE_1HOUR)['app']
 			title = info['name']
 			thumb = ICON_URL % info['icon_url']
 
@@ -140,7 +138,7 @@ def GetIdentifiers(title):
 def GetTestURLs(title, identifier):
 
 	oc = ObjectContainer(title2=title, view_group='InfoList', no_cache=True)
-	json = JSON.ObjectFromURL(TESTURLS_URL % identifier)[identifier]
+	json = JSON.ObjectFromURL(TESTURLS_URL % identifier, cacheTime=0)[identifier]
 	name = json.keys()[0]
 
 	for url in json[name]:
