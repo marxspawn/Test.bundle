@@ -14,16 +14,22 @@ TEST = {
 		"com.plexapp.plugins.euronews"
 	],
 	"Redirect (HLS)": [
+		"com.plexapp.plugins.nationalgeographic"
 	],
 	"Indirect (MP4)": [
 		"com.plexapp.plugins.vimeo",
 		"com.plexapp.plugins.youtube",
-		"com.plexapp.plugins.revision3"
+		"com.plexapp.plugins.revision3",
+		"com.plexapp.plugins.dailymotion"
 	],
 	"Indirect (MOV)": [
 		"com.plexapp.plugins.amt"
 	],
 	"Indirect (RTMP)": [
+		"com.plexapp.plugins.abc",
+		"com.plexapp.plugins.cbs",
+		"com.plexapp.plugins.syfy",
+		"com.plexapp.plugins.ustream"
 	],
 	"Multiple Indirects (MP4)": [
 		"com.plexapp.plugins.ted"
@@ -31,9 +37,14 @@ TEST = {
 	"Multiple Parts": [
 		"com.plexapp.plugins.thedailyshow"
 	],
+	"Webkit": [
+		"com.plexapp.plugins.4oD",
+		"com.plexapp.plugins.nbc"
+	],
 	" Miscellaneous TestURLs": [
 		"com.plexapp.plugins.test",
-		"com.plexapp.plugins.fallback"
+		"com.plexapp.plugins.fallback",
+		"com.plexapp.plugins.blip"
 	]
 }
 
