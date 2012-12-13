@@ -48,6 +48,25 @@ TEST = {
 	]
 }
 
+RADIO_THUMB = 'http://www.biography.com/imported/images/Biography/Images/Galleries/Billie%20Holiday/billie-holiday-thumb.jpg'
+RADIO_TEST = [
+	[
+		('Billie Holiday', 'September Song', 'http://archive.org/download/BillieHoliday-41-50/BillieHoliday-SeptemberSong.mp3'),
+		('Billie Holiday', 'Solitude', 'http://archive.org/download/BillieHoliday-41-50/BillieHoliday-Solitude.mp3'),
+		('Billie Holiday', 'Strange Fruit', 'http://archive.org/download/BillieHoliday-41-50/BillieHoliday-StrangeFruit1939.mp3'),
+	],
+	[
+		('Billie Holiday', 'Sugar', 'http://archive.org/download/BillieHoliday-41-50/BillieHoliday-Sugar.mp3'),
+		('Billie Holiday', 'Tell Me More', 'http://archive.org/download/BillieHoliday-41-50/BillieHoliday-TellMeMore.mp3'),
+		('Billie Holiday', 'That Old Devil', 'http://archive.org/download/BillieHoliday-41-50/BillieHoliday-ThatOldDevil.mp3'),
+	],
+	[
+		('Billie Holiday', 'The Blues Are Brewin', 'http://archive.org/download/BillieHoliday-41-50/BillieHoliday-TheBluesAreBrewin.mp3'),
+		('Billie Holiday', 'The Man I Love', 'http://archive.org/download/BillieHoliday-41-50/BillieHoliday-TheManILove.mp3'),
+		('Billie Holiday', 'The Very Thought Of You', 'http://archive.org/download/BillieHoliday-41-50/BillieHoliday-TheVeryThoughtOfYou.mp3'),
+	]
+]
+
 ####################################################################################################
 def Start():
 
@@ -88,6 +107,11 @@ def MainMenu():
 		summary += 'Fruit: %s\n' % Prefs['fruit']
 
 	oc.add(PrefsObject(title='Preferences', summary=summary, thumb=R('icon-prefs.png')))
+	
+	oc.add(DirectoryObject(
+		key = Callback(GetFrameworkFeatures),
+		title = "Framework Features"
+	))
 
 	return oc
 
@@ -145,3 +169,57 @@ def GetTestURLs(title, identifier):
 		oc.add(URLService.MetadataObjectForURL(url))
 
 	return oc
+
+####################################################################################################
+@route('/video/test/framework')
+def GetFrameworkFeatures():
+	return ObjectContainer(
+		title2 = "Framework Features",
+		objects = [
+			PlaylistObject(
+				key = Callback(TestRadioDirectories),
+				title = "Radio Directories",
+				radio = True,
+			),
+		]
+	)
+	
+####################################################################################################
+def RadioObjectForItem(page, index):
+	items = RADIO_TEST[page - 1]
+	artist, title, track_url = items[index]
+	return TrackObject(
+		key = Callback(TestRadioLookup, page = page, index = index),
+		rating_key = track_url,
+		album = "Demo album",
+		artist = artist,
+		title = title,
+		thumb = 'http://www.biography.com/imported/images/Biography/Images/Galleries/Billie%20Holiday/billie-holiday-thumb.jpg',
+		items = [
+			MediaObject(
+				audio_codec = AudioCodec.MP3,
+				parts=[PartObject(key = track_url)],
+			)
+		],
+	)
+
+@route('/video/test/framework/radio', page = int)
+def TestRadioDirectories(page = 1):
+	oc = ObjectContainer()
+	
+	for index in range(len(RADIO_TEST[page - 1])):
+		oc.add(RadioObjectForItem(page, index))
+		
+	if page < len(RADIO_TEST):
+		oc.add(NextPageObject(key = Callback(TestRadioDirectories, page = page + 1), title = "Next Page"))
+	
+	return oc
+	
+@route('/video/test/framework/lookup')
+def TestRadioLookup(page, index):
+	return ObjectContainer(
+		objects = [
+			RadioObjectForItem(page, index)
+		]
+	)
+
