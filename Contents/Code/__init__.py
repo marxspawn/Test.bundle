@@ -28,7 +28,6 @@ TEST = {
 	"Indirect (RTMP)": [
 		"com.plexapp.plugins.abc",
 		"com.plexapp.plugins.cbs",
-		"com.plexapp.plugins.syfy",
 		"com.plexapp.plugins.ustream"
 	],
 	"Multiple Indirects (MP4)": [
