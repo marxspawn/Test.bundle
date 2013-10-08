@@ -176,6 +176,10 @@ def GetFrameworkFeatures():
 				title = "Radio Directories",
 				radio = True,
 			),
+			DirectoryObject(
+			    key = Callback(TestMessageObject),
+			    title = "Message Objects",
+			)
 		]
 	)
 	
@@ -217,4 +221,9 @@ def TestRadioLookup(page, index):
 			RadioObjectForItem(page, index)
 		]
 	)
+
+####################################################################################################
+@route('/video/test/framework/message')
+def TestMessageObject():
+    return ObjectContainer(header="Message Object", message="This should be presented to the user.")
 
