@@ -68,10 +68,6 @@ RADIO_TEST = [
 
 ####################################################################################################
 def Start():
-
-	Plugin.AddViewGroup('List', viewMode='List', mediaType='items')
-	Plugin.AddViewGroup('InfoList', viewMode='InfoList', mediaType='items')
-
 	ObjectContainer.art = R(ART)
 	ObjectContainer.title1 = 'Test'
 	DirectoryObject.thumb = R(ICON)
@@ -80,7 +76,7 @@ def Start():
 @handler('/video/test', 'Test', art=ART, thumb=ICON)
 def MainMenu():
 
-	oc = ObjectContainer(view_group='InfoList', no_cache=True)
+	oc = ObjectContainer(no_cache=True)
 
 	tests = TEST.keys()
 	tests.sort()
@@ -118,7 +114,7 @@ def MainMenu():
 @route('/video/test/identifiers')
 def GetIdentifiers(title):
 
-	oc = ObjectContainer(title2=title, view_group='InfoList', no_cache=True)
+	oc = ObjectContainer(title2=title, no_cache=True)
 
 	for identifier in TEST[title]:
 		summary = ''
@@ -160,7 +156,7 @@ def GetIdentifiers(title):
 @route('/video/test/{identifier}/gettesturls')
 def GetTestURLs(title, identifier):
 
-	oc = ObjectContainer(title2=title, view_group='InfoList', no_cache=True)
+	oc = ObjectContainer(title2=title, no_cache=True)
 	json = JSON.ObjectFromURL(TESTURLS_URL % identifier, cacheTime=0)[identifier]
 	name = json.keys()[0]
 
