@@ -185,7 +185,13 @@ def GetFrameworkFeatures():
 			    key = Callback(TestPopupObject),
 			    title = "Popup Directories",
 			    summary = "PopupDirectoryObjects are presented as a pop-up menu where possible, and are not added to the client’s history stack." 
-			)
+			),
+			SearchDirectoryObject(
+            identifier="com.plexapp.search.videosurf",
+            title="Search Directory",
+            summary="Represents a container of objects generated from a query inputted by the user. The client will display an input dialog with the given prompt.",
+            prompt="Search for videos..."
+            )
 		]
 	)
 	
