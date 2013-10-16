@@ -245,7 +245,7 @@ def TestPopupObject():
     return ObjectContainer(
         objects = [
             DirectoryObject(key=Callback(TestMessageObject), title="Test1"),
-            DirectoryObject(key=Callback(TestMessageObject), title="Test2")
+            DirectoryObject(key=Callback(TestMessageObject), title="Test2"),
             DirectoryObject(key=Callback(TestMessageObject), title="Test3")
             ]
         )
