@@ -68,10 +68,6 @@ RADIO_TEST = [
 
 ####################################################################################################
 def Start():
-
-	Plugin.AddViewGroup('List', viewMode='List', mediaType='items')
-	Plugin.AddViewGroup('InfoList', viewMode='InfoList', mediaType='items')
-
 	ObjectContainer.art = R(ART)
 	ObjectContainer.title1 = 'Test'
 	DirectoryObject.thumb = R(ICON)
@@ -80,7 +76,7 @@ def Start():
 @handler('/video/test', 'Test', art=ART, thumb=ICON)
 def MainMenu():
 
-	oc = ObjectContainer(view_group='InfoList', no_cache=True)
+	oc = ObjectContainer(no_cache=True)
 
 	tests = TEST.keys()
 	tests.sort()
@@ -118,7 +114,7 @@ def MainMenu():
 @route('/video/test/identifiers')
 def GetIdentifiers(title):
 
-	oc = ObjectContainer(title2=title, view_group='InfoList', no_cache=True)
+	oc = ObjectContainer(title2=title, no_cache=True)
 
 	for identifier in TEST[title]:
 		summary = ''
@@ -160,7 +156,7 @@ def GetIdentifiers(title):
 @route('/video/test/{identifier}/gettesturls')
 def GetTestURLs(title, identifier):
 
-	oc = ObjectContainer(title2=title, view_group='InfoList', no_cache=True)
+	oc = ObjectContainer(title2=title, no_cache=True)
 	json = JSON.ObjectFromURL(TESTURLS_URL % identifier, cacheTime=0)[identifier]
 	name = json.keys()[0]
 
@@ -180,6 +176,22 @@ def GetFrameworkFeatures():
 				title = "Radio Directories",
 				radio = True,
 			),
+			DirectoryObject(
+			    key = Callback(TestMessageObject),
+			    title = "Message Objects",
+			    summary = "For Message Objects, The header and message attributes are used in conjunction. They instruct the client to display a message dialog on loading the container, where header is the message dialog’s title and message is the body."
+			),
+			PopupDirectoryObject(
+			    key = Callback(TestPopupObject),
+			    title = "Popup Directories",
+			    summary = "PopupDirectoryObjects are presented as a pop-up menu where possible, and are not added to the client’s history stack." 
+			),
+			SearchDirectoryObject(
+            identifier="com.plexapp.search.videosurf",
+            title="Search Directory",
+            summary="Represents a container of objects generated from a query inputted by the user. The client will display an input dialog with the given prompt.",
+            prompt="Search for videos..."
+            )
 		]
 	)
 	
@@ -221,4 +233,20 @@ def TestRadioLookup(page, index):
 			RadioObjectForItem(page, index)
 		]
 	)
+
+####################################################################################################
+@route('/video/test/framework/message')
+def TestMessageObject():
+    return ObjectContainer(header="Message Object", message="This should be presented to the user.")
+    
+####################################################################################################
+@route('/video/test/framework/popup')
+def TestPopupObject():
+    return ObjectContainer(
+        objects = [
+            DirectoryObject(key=Callback(TestMessageObject), title="Test1"),
+            DirectoryObject(key=Callback(TestMessageObject), title="Test2"),
+            DirectoryObject(key=Callback(TestMessageObject), title="Test3")
+            ]
+        )
 
