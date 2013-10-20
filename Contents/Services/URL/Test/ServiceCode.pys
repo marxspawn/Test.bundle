@@ -21,7 +21,8 @@ def MetadataObjectForURL(url):
 			raise EXCEPTIONS[e['exception']]
 		else:
 			return VideoClipObject(
-				title = e['exception']
+				title = e['exception'],
+				summary = "Exception will be raised at the %s stage." % e['trigger']
 			)
 
 	video = JSON.ObjectFromString(String.Unquote(url.strip('test://'), usePlus=False))

@@ -272,7 +272,8 @@ def TestExceptionObjects():
 		oc.add(
 			VideoClipObject(
 				url = error_url % (e['title'], e['trigger']),
-				title = e['title']
+				title = e['title'],
+				summary = "Exception will be raised at the %s stage." % e['trigger']
 			)
 		)
 	return oc
