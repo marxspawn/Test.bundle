@@ -66,6 +66,14 @@ RADIO_TEST = [
 	]
 ]
 
+ERRORS = [
+	{'title'	:	'MediaNotAvailable',	'trigger'	:	'MetadataObject'},
+	{'title'	:	'MediaExpired',		'trigger'	:	'PlayVideo'},
+	{'title'	:	'LiveMediaNotStarted',	'trigger'	:	'MetadataObject'},
+	{'title'	:	'MediaNotAuthorized',	'trigger'	:	'PlayVideo'},
+	{'title'	:	'MediaGeoblocked',	'trigger'	:	'MetadataObject'},
+	{'title'	:	'StreamLimitExceeded',	'trigger'	:	'PlayVideo'},
+]
 ####################################################################################################
 def Start():
 	ObjectContainer.art = R(ART)
@@ -179,19 +187,24 @@ def GetFrameworkFeatures():
 			DirectoryObject(
 			    key = Callback(TestMessageObject),
 			    title = "Message Objects",
-			    summary = "For Message Objects, The header and message attributes are used in conjunction. They instruct the client to display a message dialog on loading the container, where header is the message dialog’s title and message is the body."
+			    summary = "For Message Objects, The header and message attributes are used in conjunction. They instruct the client to display a message dialog on loading the container, where header is the message-dialog title and message is the body."
 			),
 			PopupDirectoryObject(
 			    key = Callback(TestPopupObject),
 			    title = "Popup Directories",
-			    summary = "PopupDirectoryObjects are presented as a pop-up menu where possible, and are not added to the client’s history stack." 
+			    summary = "PopupDirectoryObjects are presented as a pop-up menu where possible, and are not added to the history stack." 
 			),
 			SearchDirectoryObject(
-            identifier="com.plexapp.search.videosurf",
-            title="Search Directory",
-            summary="Represents a container of objects generated from a query inputted by the user. The client will display an input dialog with the given prompt.",
-            prompt="Search for videos..."
-            )
+				identifier = "com.plexapp.search.videosurf",
+				title = "Search Directory",
+				summary = "Represents a container of objects generated from a query inputted by the user. The client will display an input dialog with the given prompt.",
+				prompt = "Search for videos..."
+			),
+			DirectoryObject(
+				key = Callback(TestExceptionObjects),
+				title = "Media Exceptions",
+				summary = "These exceptions are returned when media is unavailable and they should be presented to the user in a fashion similar to Message Objects."
+			)
 		]
 	)
 	
@@ -249,4 +262,19 @@ def TestPopupObject():
             DirectoryObject(key=Callback(TestMessageObject), title="Test3")
             ]
         )
+
+####################################################################################################
+@route('/video/test/framework/exceptions')
+def TestExceptionObjects():
+	error_url = "test://exception:%s|raise:%s"
+	oc = ObjectContainer(title2 = 'Exceptions')
+	for e in ERRORS:
+		oc.add(
+			VideoClipObject(
+				url = error_url % (e['title'], e['trigger']),
+				title = e['title'],
+				summary = "Exception will be raised at the %s stage." % e['trigger']
+			)
+		)
+	return oc
 

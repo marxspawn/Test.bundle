@@ -1,9 +1,29 @@
+RE_EXCEPTION = Regex('test://exception:(?P<exception>.+)\|raise:(?P<trigger>.+)')
+
+EXCEPTIONS = {
+	'MediaNotAvailable'	:	Ex.MediaNotAvailable,
+	'MediaExpired'		:	Ex.MediaExpired,
+	'LiveMediaNotStarted'	:	Ex.LiveMediaNotStarted,
+	'MediaNotAuthorized'	:	Ex.MediaNotAuthorized,
+	'MediaGeoblocked'	:	Ex.MediaGeoblocked,
+	'StreamLimitExceeded'	:	Ex.StreamLimitExceeded
+}
+
 def NormalizeURL(url):
 
 	return url
 
 ####################################################################################################
 def MetadataObjectForURL(url):
+	if 'exception:' in url:
+		e = RE_EXCEPTION.match(url).groupdict()
+		if e['trigger'] == 'MetadataObject':
+			raise EXCEPTIONS[e['exception']]
+		else:
+			return VideoClipObject(
+				title = e['exception'],
+				summary = "Exception will be raised at the %s stage." % e['trigger']
+			)
 
 	video = JSON.ObjectFromString(String.Unquote(url.strip('test://'), usePlus=False))
 	vc = VideoClipObject()
@@ -45,6 +65,33 @@ def MetadataObjectForURL(url):
 			vc.items.append(mo)
 
 	return vc
+
+####################################################################################################
+def MediaObjectsForURL(url):
+	if 'exception:' in url:
+		e = RE_EXCEPTION.match(url).groupdict()
+		if e['trigger'] == 'MediaObject':
+			raise EXCEPTIONS[e['exception']]
+		else:
+			return [
+				MediaObject(
+					parts = [
+						PartObject(
+							key = Callback(PlayVideo, url=url)
+						)
+					]
+				)
+			]
+
+
+####################################################################################################
+def PlayVideo(url):
+	if 'exception:' in url:
+		e = RE_EXCEPTION.match(url).groupdict()
+		if e['trigger'] == 'PlayVideo':
+			raise EXCEPTIONS[e['exception']]
+		else:
+			return Redirect('http://archive.org/download/Popeye_forPresident/Popeye_forPresident_512kb.mp4')
 
 ####################################################################################################
 def SortValues(x, y):
