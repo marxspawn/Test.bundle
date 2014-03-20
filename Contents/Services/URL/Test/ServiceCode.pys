@@ -55,9 +55,7 @@ def MetadataObjectForURL(url):
 
 			for url in video['urls'][size]:
 				if 'container' in video:
-					if video['container'] == 'webkit':
-						mo.parts.append(PartObject(key=WebVideoURL(url)))
-					elif video['container'] == 'hls':
+					if video['container'] == 'hls':
 						mo.parts.append(PartObject(key=HTTPLiveStreamURL(url)))
 					else:
 						mo.parts.append(PartObject(key=url))
@@ -140,32 +138,6 @@ def TestURLs():
 			"container": "mp4",
 			"video_codec": "h264",
 			"audio_codec": "aac"
-		}
-	)
-	test_urls.append('test://%s' % String.Quote(video, usePlus=False))
-
-	# Webkit (Flash)
-	video = JSON.StringFromObject(
-		{
-			"title": "Webkit (Flash)",
-			"thumb": "http://dl.dropbox.com/u/2974527/Plex/Testvideo/Fringe/thumb.jpg",
-			"urls": {
-				"480": ["http://www.plexapp.com/player/player.php?clip=http://dl.dropbox.com/u/2974527/Plex/Testvideo/Fringe/480p.mp4"]
-			},
-			"container": "webkit"
-		}
-	)
-	test_urls.append('test://%s' % String.Quote(video, usePlus=False))
-
-	# Webkit (Silverlight)
-	video = JSON.StringFromObject(
-		{
-			"title": "Webkit (Silverlight)",
-			"thumb": "http://dl.dropbox.com/u/2974527/Plex/Testvideo/Fringe/thumb.jpg",
-			"urls": {
-				"480": ["http://www.plexapp.com/player/silverlight.php?stream=http://dl.dropbox.com/u/2974527/Plex/Testvideo/Fringe/480p.mp4"]
-			},
-			"container": "webkit"
 		}
 	)
 	test_urls.append('test://%s' % String.Quote(video, usePlus=False))

@@ -35,10 +35,6 @@ TEST = {
 	"Multiple Parts": [
 		"com.plexapp.plugins.thedailyshow"
 	],
-#	"Webkit": [
-#		"com.plexapp.plugins.4oD",
-#		"com.plexapp.plugins.nbc"
-#	],
 	" Miscellaneous TestURLs": [
 		"com.plexapp.plugins.test",
 		"com.plexapp.plugins.fallback",
