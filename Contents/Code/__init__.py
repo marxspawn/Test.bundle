@@ -26,7 +26,6 @@ TEST = {
 		"com.plexapp.plugins.amt"
 	],
 	"Indirect (RTMP)": [
-		"com.plexapp.plugins.abc",
 		"com.plexapp.plugins.cbs",
 		"com.plexapp.plugins.ustream"
 	],
@@ -36,10 +35,10 @@ TEST = {
 	"Multiple Parts": [
 		"com.plexapp.plugins.thedailyshow"
 	],
-	"Webkit": [
-		"com.plexapp.plugins.4oD",
-		"com.plexapp.plugins.nbc"
-	],
+#	"Webkit": [
+#		"com.plexapp.plugins.4oD",
+#		"com.plexapp.plugins.nbc"
+#	],
 	" Miscellaneous TestURLs": [
 		"com.plexapp.plugins.test",
 		"com.plexapp.plugins.fallback",
