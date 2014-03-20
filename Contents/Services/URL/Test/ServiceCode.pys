@@ -42,7 +42,7 @@ def MetadataObjectForURL(url):
 			mo = MediaObject()
 			mo.video_resolution = size
 
-			if 'container' in video:
+			if 'container' in video and video['container'] != 'embed':
 				mo.container = video['container']
 
 			if 'video_codec' in video:
@@ -57,6 +57,8 @@ def MetadataObjectForURL(url):
 				if 'container' in video:
 					if video['container'] == 'hls':
 						mo.parts.append(PartObject(key=HTTPLiveStreamURL(url)))
+					elif video['container'] == 'embed':
+						mo.parts.append(PartObject(key=EmbedURL(Callback(CreateEmbed, html=url))))
 					else:
 						mo.parts.append(PartObject(key=url))
 
@@ -105,6 +107,11 @@ def SortValues(x, y):
 		return -1
 
 ####################################################################################################
+def CreateEmbed(html):
+
+	return html
+
+####################################################################################################
 def TestURLs():
 
 	test_urls = []
@@ -138,6 +145,19 @@ def TestURLs():
 			"container": "mp4",
 			"video_codec": "h264",
 			"audio_codec": "aac"
+		}
+	)
+	test_urls.append('test://%s' % String.Quote(video, usePlus=False))
+
+	# HTML Embed (Plex/Web only)
+	video = JSON.StringFromObject(
+		{
+			"title": "HTML Embed (Plex/Web only)",
+			"thumb": "https://dl.dropboxusercontent.com/u/2974527/Plex/Testvideo/vimeo_83464882.jpg",
+			"urls": {
+				"480": ["<iframe src=\"//player.vimeo.com/video/83464882\" width=\"640\" height=\"360\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>"]
+			},
+			"container": "embed"
 		}
 	)
 	test_urls.append('test://%s' % String.Quote(video, usePlus=False))
